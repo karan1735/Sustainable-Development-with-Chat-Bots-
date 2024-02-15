@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Creation</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <h1>Create an Account</h1>
+    <form action="/register" method="post">
+        <div class="form-group">
+            <label for="district">District:</label>
+            <input type="text" class="form-control" id="district" name="district" required>
+        </div>
+        <div class="form-group">
+            <label for="domain">Domain:</label>
+            <input type="text" class="form-control" id="domain" name="domain" required>
+        </div>
+        <div class="form-group">
+            <label for="uniqueId">Unique ID:</label>
+            <input type="text" class="form-control" id="uniqueId" name="uniqueId" required>
+        </div>
+        <div class="form-group">
+            <label for="locations">Locations (comma-separated):</label>
+            <input type="text" class="form-control" id="locations" name="locations" required>
+        </div>
+        <div class="form-group">
+            <label for="telegramId">Telegram ID:</label>
+            <input type="text" class="form-control" id="telegramId" name="telegramId" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
+
+</body>
+</html>
