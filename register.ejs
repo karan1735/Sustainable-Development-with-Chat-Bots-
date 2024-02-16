@@ -3,14 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Creation</title>
+    <title>Account Management</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
 <div class="container">
-    <h1>Create an Account</h1>
-    <form action="/register" method="post">
+    <h1>Account Management</h1>
+    
+    <!-- Sign Up Form (Initially Hidden) -->
+    <form id="signupForm" action="/register" method="post" style="display: none;">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="Password">Set Password:</label>
+            <input type="text" class="form-control" id="password" name="password" required>
+        </div>
         <div class="form-group">
             <label for="district">District:</label>
             <input type="text" class="form-control" id="district" name="district" required>
@@ -31,9 +45,59 @@
             <label for="telegramId">Telegram ID:</label>
             <input type="text" class="form-control" id="telegramId" name="telegramId" required>
         </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
+    
+    <!-- Sign In Form (Initially Hidden) -->
+    <form id="signinForm" action="/login" method="post" style="display: none;">
+        <div class="form-group">
+            <label for="uniqueIdSignIn">Unique ID:</label>
+            <input type="text" class="form-control" id="uniqueIdSignIn" name="uniqueIdSignIn" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+    </form>
+
+    <!-- Buttons to Toggle Between Sign Up and Sign In -->
+    <div class="mt-3">
+        <button id="signupButton" class="btn btn-secondary">Sign Up</button>
+        <button id="signinButton" class="btn btn-secondary">Sign In</button>
+    </div>
 </div>
+
+<script>
+    // Function to toggle between sign up and sign in forms
+    function toggleForms() {
+        var signupForm = document.getElementById("signupForm");
+        var signinForm = document.getElementById("signinForm");
+        var signupButton = document.getElementById("signupButton");
+        var signinButton = document.getElementById("signinButton");
+
+        // Toggle display of sign up and sign in forms
+        if (signupForm.style.display === "none") {
+            signupForm.style.display = "block";
+            signinForm.style.display = "none";
+            signupButton.classList.add("btn-primary");
+            signupButton.classList.remove("btn-secondary");
+            signinButton.classList.add("btn-secondary");
+            signinButton.classList.remove("btn-primary");
+        } else {
+            signupForm.style.display = "none";
+            signinForm.style.display = "block";
+            signupButton.classList.add("btn-secondary");
+            signupButton.classList.remove("btn-primary");
+            signinButton.classList.add("btn-primary");
+            signinButton.classList.remove("btn-secondary");
+        }
+    }
+
+    // Add event listeners to the buttons to toggle between sign up and sign in forms
+    document.getElementById("signupButton").addEventListener("click", toggleForms);
+    document.getElementById("signinButton").addEventListener("click", toggleForms);
+</script>
 
 </body>
 </html>

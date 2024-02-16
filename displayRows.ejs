@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Rows</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <h1>Fetched Rows</h1>
+    
+    <h2>Pending</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Issue</th>
+                <th>Image</th>
+                <th>Description of the issue</th>
+                <th>Area</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Platform</th>
+                <th>Action</th> <!-- New column for buttons -->
+            </tr>
+        </thead>
+        <tbody>
+            <% rows.forEach(function(row) { %>
+                <tr>
+                    <td><%= row.firstname %></td>
+                    <td><%= row.lastname %></td>
+                    <td><%= row.issue %></td>
+                    <td>
+                        <% if (row.Image) { %>
+                            <img src="data:image/jpg;base64,<%= row.Image.toString('base64') %>" alt="Image">
+                        <% } else { %>
+                            <p>No image available</p>
+                        <% } %>
+                    </td>
+                    <td><%= row.description_issue %></td>
+                    <td><%= row.area %></td>
+                    <td><%= row.date_of_complaint %></td>
+                    <td><%= row.time_of_complaint %></td>
+                    <td><%= row.status_issue %></td>
+                    <td><%= row.platform %></td>
+                    <td>
+                        <button onclick="completeIssue('<%= row.complaint_number %>')">Completed</button>
+                        <button onclick="markAsInappropriate('<%= row.complaint_number %>')">Inappropriate</button>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function completeIssue(complaintNumber) {
+        // Send an AJAX POST request to mark the issue as completed
+        fetch('/markCompleted', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ complaintNumber: complaintNumber })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to mark issue as completed');
+            }
+            console.log('Issue marked as completed: ' + complaintNumber);
+            // Optionally, update UI or perform any other action upon success
+        })
+        .catch(error => {
+            console.error('Error marking issue as completed:', error);
+            // Optionally, handle errors or display a message to the user
+        });
+    }
+
+    function markAsInappropriate(complaintNumber) {
+        // Send an AJAX POST request to mark the issue as inappropriate
+        fetch('/markInappropriate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ complaintNumber: complaintNumber })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to mark issue as inappropriate');
+            }
+            console.log('Issue marked as inappropriate: ' + complaintNumber);
+            // Optionally, update UI or perform any other action upon success
+        })
+        .catch(error => {
+            console.error('Error marking issue as inappropriate:', error);
+            // Optionally, handle errors or display a message to the user
+        });
+    }
+</script>
+
+</body>
+</html>

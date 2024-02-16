@@ -39,7 +39,7 @@
         </div>
         <div class="form-group">
             <label for="state">State:</label>
-            <select class="form-control" id="state" name="state" required>
+            <select class="form-control" id="state" name="state" required onchange="generateUniqueCode()">
                 <option value="" disabled selected>Select your state</option>
                 <!-- States will be populated dynamically based on the selected country -->
             </select>
@@ -47,6 +47,10 @@
         <div class="form-group">
             <label for="image">Image:</label>
             <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+        </div>
+        <div class="form-group">
+            <label for="uniqueCode">Unique Code:</label>
+            <input type="text" class="form-control" id="uniqueCode" name="uniqueCode" readonly>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
@@ -80,7 +84,38 @@
             option.value = states[i];
             stateSelect.add(option);
         }
+
+        // Generate unique code when the state is populated
+        generateUniqueCode();
     }
+
+   // Object to store generated codes for each state
+var generatedCodes = {};
+
+function generateUniqueCode() {
+    var stateSelect = document.getElementById("state");
+    var uniqueCodeInput = document.getElementById("uniqueCode");
+
+    // Get selected state
+    var selectedState = stateSelect.value;
+
+    // Check if a code has already been generated for this state
+    if (generatedCodes[selectedState]) {
+        // If a code already exists, use that
+        uniqueCodeInput.value = generatedCodes[selectedState];
+        return; // Exit the function to prevent generating a new code
+    }
+
+    // Generate unique code based on selected state (You can customize this code generation logic)
+    var uniqueCode = selectedState.substring(0, 3).toUpperCase() + Math.floor(1000  * 9000);
+
+    // Store the generated code for this state
+    generatedCodes[selectedState] = uniqueCode;
+
+    // Update unique code input field
+    uniqueCodeInput.value = uniqueCode;
+}
+
 </script>
 </body>
 </html>
