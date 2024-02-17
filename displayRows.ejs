@@ -70,7 +70,21 @@
                     <td>
                         <button onclick="completeIssue('<%= row.complaint_number %>')">Completed</button>
                         <button onclick="markAsInappropriate('<%= row.complaint_number %>')">Inappropriate</button>
+                        
                     </td>
+                    <!-- Within the table body -->
+<td>
+    <button onclick="toggleAssignOptions(this)">Assign</button>
+    <div class="assign-options" style="display: none;">
+        <select>
+            <option value="person1">Person 1</option>
+            <option value="person2">Person 2</option>
+            <option value="person3">Person 3</option>
+            <!-- Add more options as needed -->
+        </select>
+    </div>
+</td>
+
                 </tr>
             <% }); %>
         </tbody>
@@ -109,6 +123,12 @@
             }
         });
     }
+    function toggleAssignOptions(button) {
+    // Find the closest assign-options div relative to the clicked button
+    var assignOptions = $(button).siblings(".assign-options");
+    // Toggle the visibility of assign-options div
+    assignOptions.toggle();
+}
 
     // JavaScript functions for marking issues as completed or inappropriate (same as before)...
 </script>
