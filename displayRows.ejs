@@ -8,11 +8,30 @@
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Complaints Dashboard</a>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/complaints">Complaints</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/pending">Pending</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/completed">Completed</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/inappropriate">Inappropriate</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 <div class="container">
-    <h1>Fetched Rows</h1>
-    
-    <h2>Pending</h2>
+    <h1>Complaints</h1>
     <table class="table">
+        <!-- Table Header -->
         <thead>
             <tr>
                 <th>Firstname</th>
@@ -25,9 +44,10 @@
                 <th>Time</th>
                 <th>Status</th>
                 <th>Platform</th>
-                <th>Action</th> <!-- New column for buttons -->
+                <th>Action</th>
             </tr>
         </thead>
+        <!-- Table Body -->
         <tbody>
             <% rows.forEach(function(row) { %>
                 <tr>
@@ -56,51 +76,41 @@
         </tbody>
     </table>
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function completeIssue(complaintNumber) {
-        // Send an AJAX POST request to mark the issue as completed
-        fetch('/markCompleted', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+        $.ajax({
+            type: "POST",
+            url: "/markCompleted",
+            data: { complaintNumber: complaintNumber },
+            success: function(response) {
+                alert("Issue marked as completed successfully");
+                // Optionally, you can reload the page or update the UI here
             },
-            body: JSON.stringify({ complaintNumber: complaintNumber })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to mark issue as completed');
+            error: function(xhr, status, error) {
+                console.error("Error marking issue as completed:", error);
+                alert("An error occurred while marking the issue as completed. Please try again later.");
             }
-            console.log('Issue marked as completed: ' + complaintNumber);
-            // Optionally, update UI or perform any other action upon success
-        })
-        .catch(error => {
-            console.error('Error marking issue as completed:', error);
-            // Optionally, handle errors or display a message to the user
         });
     }
 
     function markAsInappropriate(complaintNumber) {
-        // Send an AJAX POST request to mark the issue as inappropriate
-        fetch('/markInappropriate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+        $.ajax({
+            type: "POST",
+            url: "/markInappropriate",
+            data: { complaintNumber: complaintNumber },
+            success: function(response) {
+                alert("Issue marked as inappropriate successfully");
+                // Optionally, you can reload the page or update the UI here
             },
-            body: JSON.stringify({ complaintNumber: complaintNumber })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to mark issue as inappropriate');
+            error: function(xhr, status, error) {
+                console.error("Error marking issue as inappropriate:", error);
+                alert("An error occurred while marking the issue as inappropriate. Please try again later.");
             }
-            console.log('Issue marked as inappropriate: ' + complaintNumber);
-            // Optionally, update UI or perform any other action upon success
-        })
-        .catch(error => {
-            console.error('Error marking issue as inappropriate:', error);
-            // Optionally, handle errors or display a message to the user
         });
     }
+
+    // JavaScript functions for marking issues as completed or inappropriate (same as before)...
 </script>
 
 </body>

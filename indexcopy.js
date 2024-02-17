@@ -159,6 +159,9 @@ app.post("/register", function(req, res) {
 });
 
 // Route to handle sign-in request
+let loggedInUniqueId = null;
+
+// Route for handling login
 app.post("/login", function(req, res) {
     const { uniqueIdSignIn, password } = req.body;
 
@@ -166,6 +169,9 @@ app.post("/login", function(req, res) {
     if (password !== "123") {
         return res.status(401).send("Incorrect password");
     }
+
+    // Store the logged-in unique ID for later use
+    loggedInUniqueId = uniqueIdSignIn;
 
     // Query the database to fetch rows based on the provided unique ID
     const sql = "SELECT * FROM sustainable1 WHERE unique_id = ?";
@@ -179,6 +185,28 @@ app.post("/login", function(req, res) {
         res.render("displayRows", { rows: rows });
     });
 });
+
+// Route for displaying complaints using the same unique ID used during login
+app.get("/complaints", function(req, res) {
+    // Ensure a unique ID has been logged in before accessing complaints
+    if (!loggedInUniqueId) {
+        return res.status(401).send("You must log in first");
+    }
+
+    // Query the database to fetch all complaints for the logged-in unique ID
+    const sql = "SELECT * FROM sustainable1 WHERE unique_id = ?";
+    connection.query(sql, [loggedInUniqueId], function (err, rows) {
+        if (err) {
+            console.error("Error fetching complaints:", err);
+            res.status(500).send("An error occurred while processing your request.");
+        } else {
+            res.render("displayRows", { rows: rows });
+        }
+    });
+});
+
+
+
 
 // Define a route for "/confirmation"
 app.get("/confirmation", function(req, res) {
@@ -222,6 +250,62 @@ app.post("/markInappropriate", function(req, res) {
 });
 
 
+
+// Route for displaying pending complaints
+app.get("/pending", function(req, res) {
+    // Ensure a unique ID has been logged in before accessing pending complaints
+    if (!loggedInUniqueId) {
+        return res.status(401).send("You must log in first");
+    }
+
+    // Query the database to fetch pending complaints for the logged-in unique ID
+    const sql = "SELECT * FROM sustainable1 WHERE unique_id = ? AND status_issue = 'pending'";
+    connection.query(sql, [loggedInUniqueId], function(err, rows) {
+        if (err) {
+            console.error("Error fetching pending complaints:", err);
+            res.status(500).send("An error occurred while processing your request.");
+        } else {
+            res.render("displayRows", { rows: rows });
+        }
+    });
+});
+
+app.get("/completed", function(req, res) {
+    // Ensure a unique ID has been logged in before accessing completed complaints
+    if (!loggedInUniqueId) {
+        return res.status(401).send("You must log in first");
+    }
+
+    // Query the database to fetch completed complaints for the logged-in unique ID
+    const sql = "SELECT * FROM sustainable1 WHERE unique_id = ? AND status_issue = 'completed'";
+    connection.query(sql, [loggedInUniqueId], function(err, rows) {
+        if (err) {
+            console.error("Error fetching completed complaints:", err);
+            res.status(500).send("An error occurred while processing your request.");
+        } else {
+            res.render("displayRows", { rows: rows });
+        }
+    });
+});
+
+// Route for fetching inappropriate complaints using the same unique ID used during login
+app.get("/inappropriate", function(req, res) {
+    // Ensure a unique ID has been logged in before accessing inappropriate complaints
+    if (!loggedInUniqueId) {
+        return res.status(401).send("You must log in first");
+    }
+
+    // Query the database to fetch inappropriate complaints for the logged-in unique ID
+    const sql = "SELECT * FROM sustainable1 WHERE unique_id = ? AND status_issue = 'inappropriate'";
+    connection.query(sql, [loggedInUniqueId], function(err, rows) {
+        if (err) {
+            console.error("Error fetching inappropriate complaints:", err);
+            res.status(500).send("An error occurred while processing your request.");
+        } else {
+            res.render("displayRows", { rows: rows });
+        }
+    });
+});
 
 
 app.listen(3000, function () {
