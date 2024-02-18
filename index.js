@@ -6,7 +6,6 @@ var connection = require('./database');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Display the form to add a new record
 app.get('/add', function(req, res) {
     res.send(`
         <form method="post" action="/add">
@@ -18,7 +17,6 @@ app.get('/add', function(req, res) {
     `);
 });
 
-// Handle the form submission to add a new record
 app.post('/add', function(req, res) {
     var district = req.body.district;
     var work = req.body.work;
@@ -36,7 +34,6 @@ app.post('/add', function(req, res) {
     });
 });
 
-// Display records from the database
 app.get('/', function(req, res) {
     let sql = "SELECT * FROM checking";
     connection.query(sql, function(err, result) {
@@ -56,8 +53,6 @@ app.get('/', function(req, res) {
             table += '</tr>';
         });
         table += '</table>';
-
-        // Add link to the add form
         table += '<a href="/add">Add a Complaint</a>';
 
         res.send(table);
