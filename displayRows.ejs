@@ -6,31 +6,61 @@
     <title>Display Rows</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
+<style>
+    body {
+        background-color: #ffffff; /* Set your desired background color here */
+    }
+
+    .center-card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .table-container {
+        width: 95%;
+        height: 70%;
+     /* Set the width of the table container */
+    }
+
+    /* Optional: Adjust the table styles */
+    .table-responsive {
+        overflow-x: auto; /* Enable horizontal scrolling for small screens */
+    }
+    .dashboard-brand {
+    color: #ffffff; /* Set your desired color here */
+}
+</style>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Complaints Dashboard</a>
-  <div  class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="/complaints">Complaints</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/pending">Pending</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/completed">Completed</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/inappropriate">Inappropriate</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-<div class="table">
-    <h1>Complaints</h1>
-    <table class="table table-sucess table-hover">
+    <div class="p-3 mb-2 bg-dark text-white">
+        
+    <nav class="navbar navbar-expand-lg navbar-light bg-green">
+        <a class="navbar-brand dashboard-brand">Complaints Dashboard</a>
+       
+        <div class="tab-content" id="navbarNav">
+          <ul class="nav nav-tabs " >
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" href="/complaints">Complaints</a>
+            </li>
+            <li class="nav-item"  role="presentation">
+              <a class="nav-link" href="/pending">Pending</a>
+            </li>
+            <li class="nav-item"  role="presentation">
+              <a class="nav-link" href="/completed">Completed</a>
+            </li>
+            <li class="nav-item"  role="presentation">
+              <a class="nav-link" href="/inappropriate">Inappropriate</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="center-card">
+        <div class="table-container">
+<div class="table-responsive">
+    <!--<h1>Complaints</h1>-->
+    <table class="table table-dark table-hover table align-middle table-bordered table align-middl">
         <thead>
             <tr class="align-bottom">
                 <th>Firstname</th>
@@ -46,7 +76,7 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
             <% rows.forEach(function(row) { %>
                 <tr>
                     <td><%= row.firstname %></td>
@@ -54,8 +84,8 @@
                     <td><%= row.issue %></td>
                     <td>
                         <% if (row.Image) { %>
-                            <img src="data:image/jpg;base64,<%= row.Image.toString('base64') %>"  class="img-fluid" alt="Image">
-                        <% } else { %>
+                            <img src="/uploads/<%= row.unique_id %>" alt="Image" style="max-width: 1000px; max-height: 1000px;">
+                            <% } else { %>
                             <p>No image available</p>
                         <% } %>
                     </td>
@@ -125,6 +155,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
+
+</div>
 
 </body>
 

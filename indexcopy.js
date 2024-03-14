@@ -7,6 +7,8 @@ const connection = require("./database");
 const json = require('json');
 const json5 = require('json5');
 
+
+
 const app = express();
 app.use(express.json());
 
@@ -55,9 +57,11 @@ app.post("/submit", upload.single('image'), function (req, res) {
     });
 });
 
-app.get("/image/:id", function (req, res) {
+const uploadsDirectory = path.join(__dirname, 'uploads');
+app.use(express.static(uploadsDirectory));
+app.get("/Images/:id", function (req, res) {
     const id = req.params.id; 
-    const sql = "SELECT image FROM sustainable1 WHERE id = ?";
+    const sql = "SELECT Image FROM sustainable1 WHERE unique_id = ?";
     connection.query(sql, [id], function (err, result) {
         if (err) {
             console.error("Error retrieving image:", err);
@@ -72,7 +76,8 @@ app.get("/image/:id", function (req, res) {
             }
         }
     });
-});
+}); 
+
 
 app.post("/register", function(req, res) {
     const { username, email, password, district, domain, uniqueId, locations, telegramId } = req.body;
@@ -155,6 +160,7 @@ app.post("/login", function(req, res) {
     });
 });
 
+app.use(express.static('uploads'));
 app.get("/complaints", function(req, res) {
     if (!loggedInUniqueId) {
         return res.status(401).send("You must log in first");
@@ -249,6 +255,29 @@ app.get("/inappropriate", function(req, res) {
         }
     });
 });
+
+
+app.get("/home", function (req, res) {
+    // Render the home.ejs file
+    res.render("home");
+});
+
+app.get('/register', function (req, res) {
+    // Render the about.ejs file
+    res.render('register');
+});
+
+app.get('/services',function (req, res) {
+    // Render the services.ejs file
+    res.render('services');
+});
+
+app.get('/contact', function (req, res)  {
+    // Render the contact.ejs file
+    res.render('contact');
+});
+
+
 
 
 app.listen(3000, function () {

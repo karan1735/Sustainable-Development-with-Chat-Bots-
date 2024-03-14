@@ -5,54 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            color: rgb(0, 0, 0); /* Set text color to white for better visibility */
+        }
+
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Ensure the background stays behind the content */
+            /*background-color: rgb(232, 255, 80);*/
+            /*background-image: url('https://picsum.photos/1920/1080'); /* Placeholder image URL */
+            background-size: cover;
+            background-position: center;
+            filter: blur(5px); /* Add a blur effect to the background image */
+        }
+
+        .container {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #e9e0e051; /* Semi-transparent background for better readability */
+            position: relative; /* Ensure the container remains above the background */
+            z-index: 1; /* Ensure the container stays above the background */
+        }
+
+        .form-group label {
+            color: rgb(29, 28, 28); /* Set label text color to white */
+        }
+    </style>
 </head>
 <body>
-
+<div class="background-container"></div>
 <div class="container">
     <h1>Enter Details</h1>
-    <form action="/submit" method="post" enctype="multipart/form-data">
-        <div class="form-group">
+    <form action="/submit" method="post" enctype="multipart/form-data" class="row g-3">
+        <div class="form-group col-md-6">
             <label for="firstname">Firstname:</label>
             <input type="text" class="form-control" id="firstname" name="firstname" required>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label for="lastname">Lastname:</label>
             <input type="text" class="form-control" id="lastname" name="lastname" required>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label for="issue">Issue:</label>
             <input type="text" class="form-control" id="issue" name="issue" required>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label for="description_issue">Description of the issue:</label>
             <input type="text" class="form-control" id="description_issue" name="description_issue" required>
         </div>
-        <div class="form-group">
-            <label for="country">Country:</label>
+        <div class="form-group col-md-6">
+            <label for="country">District:</label>
             <select class="form-control" id="country" name="country" required onchange="populateStates()">
-                <option value="" disabled selected>Select your country</option>
-                <option value="USA">United States</option>
-                <option value="Canada">Canada</option>
-                <option value="UK">United Kingdom</option>
+                <option value="" disabled selected>Select your District</option>
+                <option value="Erode">Erode</option>
+                <option value="CBE">CBE</option>
+                <option value="salem">Salem</option>
                 
             </select>
         </div>
-        <div class="form-group">
-            <label for="state">State:</label>
+        <div class="form-group col-md-6">
+            <label for="state">Place:</label>
             <select class="form-control" id="state" name="state" required onchange="generateUniqueCode()">
                 <option value="" disabled selected>Select your state</option>
                 
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label for="image">Image:</label>
-            <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label for="uniqueCode">Unique Code:</label>
             <input type="text" class="form-control" id="uniqueCode" name="uniqueCode" readonly>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary  col-md-12 ">Submit</button>
     </form>
 </div>
 
@@ -69,12 +100,12 @@
 
         
         var states = [];
-        if (selectedCountry === "USA") {
-            states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
-        } else if (selectedCountry === "Canada") {
-            states = ["Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon"];
-        } else if (selectedCountry === "UK") {
-            states = ["England", "Scotland", "Wales", "Northern Ireland"];
+        if (selectedCountry === "Erode") {
+            states = ["place1", "place2", "place3", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+        } else if (selectedCountry === "CBE") {
+            states = ["Alberta", "place2", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon"];
+        } else if (selectedCountry === "Salem") {
+            states = ["place1", "place2", "Wales", "Northern Ireland"];
         }
 
         
